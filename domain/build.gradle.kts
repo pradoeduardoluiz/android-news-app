@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.prado.eduardo.luiz.newsapp.data"
+    namespace = "com.prado.eduardo.luiz.domain"
     compileSdk = 36
 
     defaultConfig {
@@ -29,23 +29,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
-        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
 }
 
 dependencies {
 
-    implementation(project(":domain"))
-
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.moshiconverter)
-    implementation(libs.moshi)
-    implementation(libs.koin.android)
-    implementation(libs.koin.core)
-
+    implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
