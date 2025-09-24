@@ -32,6 +32,7 @@ class NewsViewModel(
                 _uiState.value = NewsUIState(articles = result, isLoading = false)
             }.onFailure { e ->
                 _uiState.value = NewsUIState(error = e.message, isLoading = false)
+                e.printStackTrace()
             }
     }
 }
