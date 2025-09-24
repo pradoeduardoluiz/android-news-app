@@ -1,17 +1,22 @@
 package com.prado.eduardo.luiz.newsapp.ui.news.screen
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.prado.eduardo.luiz.newsapp.ui.component.CardLarge
+import com.prado.eduardo.luiz.newsapp.ui.component.CardSmall
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsIntent
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsUIState
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NewsScreen() {
+fun NewsScreen(modifier: Modifier) {
     val viewModel: NewsViewModel = koinViewModel()
     val state = viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -19,10 +24,12 @@ fun NewsScreen() {
         viewModel.publish(NewsIntent.GetNews)
     }
 
-    NewsScreenContent(
-        state = state.value,
-        onPublish = { viewModel::publish }
-    )
+    Column(modifier = modifier) {
+        NewsScreenContent(
+            state = state.value,
+            onPublish = { viewModel::publish }
+        )
+    }
 }
 
 @Composable
@@ -34,8 +41,28 @@ fun NewsScreenContent(
         NewsLoading()
     } else {
         LazyColumn {
-            items(state.articles, key = { it.title }) { article ->
-
+            itemsIndexed(state.articles) { index, article ->
+                // each 3 card I would like to show the large card
+                if (index % 3 == 0) {
+                    // Large Card
+                    CardLarge(
+                        author = article.author,
+                        title = article.title,
+                        description = article.description,
+                        imageUrl = article.urlToImage,
+                        isCaptionVisible = true,
+                        onClick = { /* TODO */ }
+                    )
+                } else {
+                    // Small Card
+                    CardSmall(
+                        author = article.author,
+                        title = article.title,
+                        description = article.description,
+                        imageUrl = article.urlToImage,
+                        onClick = { /* TODO */ }
+                    )
+                }
             }
         }
     }
@@ -43,5 +70,5 @@ fun NewsScreenContent(
 
 @Composable
 fun NewsLoading() {
-    TODO("Not yet implemented")
+    CircularProgressIndicator()
 }

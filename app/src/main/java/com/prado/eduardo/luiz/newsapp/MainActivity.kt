@@ -7,8 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import com.prado.eduardo.luiz.newsapp.ui.news.screen.NewsScreen
 import com.prado.eduardo.luiz.newsapp.ui.theme.NewsAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,10 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NewsAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Text(
-                        text = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NewsScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
