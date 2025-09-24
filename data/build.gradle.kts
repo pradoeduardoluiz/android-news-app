@@ -36,7 +36,10 @@ android {
 dependencies {
 
     implementation(libs.retrofit)
+    implementation(libs.retrofit.moshiconverter)
     implementation(libs.moshi)
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
