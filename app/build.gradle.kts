@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.android.compose)
     implementation(libs.koin.core)
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

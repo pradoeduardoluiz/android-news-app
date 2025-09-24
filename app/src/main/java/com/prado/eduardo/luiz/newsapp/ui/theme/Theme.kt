@@ -1,6 +1,5 @@
 package com.prado.eduardo.luiz.newsapp.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,28 +8,53 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = BBC_White,
+    onPrimary = BBC_Black,
+    primaryContainer = BBC_GrayLight,
+    onPrimaryContainer = BBC_Black,
+
+    secondary = BBC_GrayMid,
+    onSecondary = BBC_Black,
+    secondaryContainer = BBC_GrayDark,
+    onSecondaryContainer = BBC_White,
+
+    background = BBC_Black,
+    onBackground = BBC_White,
+
+    surface = BBC_GrayDark,
+    onSurface = BBC_White,
+    surfaceVariant = BBC_GrayDark,
+    onSurfaceVariant = BBC_White,
+
+    error = Color(0xFFF2B8B5),
+    onError = BBC_Black
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = BBC_Black,
+    onPrimary = BBC_White,
+    primaryContainer = BBC_GrayDark,
+    onPrimaryContainer = BBC_White,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary = BBC_GrayMid,
+    onSecondary = BBC_White,
+    secondaryContainer = BBC_GrayLight,
+    onSecondaryContainer = BBC_Black,
+
+    background = BBC_White,
+    onBackground = BBC_Black,
+
+    surface = BBC_White,
+    onSurface = BBC_Black,
+    surfaceVariant = BBC_GrayLight,
+    onSurfaceVariant = BBC_Black,
+
+    error = Color(0xFFB3261E),
+    onError = BBC_White
 )
 
 @Composable
@@ -52,7 +76,7 @@ fun NewsAppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = BbcTypography,
         content = content
     )
 }
