@@ -46,7 +46,7 @@ fun NewsScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         NewsScreenContent(
             state = state.value,
-            onPublish = { viewModel::publish }
+            onPublish = { viewModel.publish(it) }
         )
     }
 }
@@ -68,7 +68,7 @@ private fun NewsScreenContent(
                         description = article.description,
                         imageUrl = article.urlToImage,
                         isCaptionVisible = true,
-                        onClick = { /* TODO */ }
+                        onClick = { onPublish(NewsIntent.OpenArticle(article)) }
                     )
                 } else {
                     CardSmall(
@@ -76,7 +76,7 @@ private fun NewsScreenContent(
                         title = article.title,
                         description = article.description,
                         imageUrl = article.urlToImage,
-                        onClick = { /* TODO */ }
+                        onClick = { onPublish(NewsIntent.OpenArticle(article)) }
                     )
                 }
             }

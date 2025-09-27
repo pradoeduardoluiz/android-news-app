@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.prado.eduardo.luiz.newsapp.R
 import com.prado.eduardo.luiz.newsapp.navigation.AppRoute
@@ -30,8 +30,9 @@ import com.prado.eduardo.luiz.newsapp.ui.news.screen.NewsScreen
 import com.prado.eduardo.luiz.newsapp.ui.theme.NewsAppTheme
 
 @Composable
-fun NewsApp() {
-    val navController = rememberNavController()
+fun NewsApp(
+    navController: NavHostController
+) {
     NewsAppTheme {
         Scaffold(
             topBar = {

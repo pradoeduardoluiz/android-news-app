@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.coil.network)
     implementation(libs.compose.shimmer)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

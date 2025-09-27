@@ -3,13 +3,15 @@ package com.prado.eduardo.luiz.newsapp.ui.article
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.DispatchersProvider
+import com.prado.eduardo.luiz.newsapp.navigation.NavigatorRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ArticleViewModel(
-    private val dispatcher: DispatchersProvider
+    private val dispatcher: DispatchersProvider,
+    private val navigator: NavigatorRoute
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ArticleUIState())

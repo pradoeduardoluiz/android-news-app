@@ -5,13 +5,31 @@ import com.prado.eduardo.luiz.newsapp.common.dispatcher.AppDispatchersProvider
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.DispatchersProvider
 import com.prado.eduardo.luiz.newsapp.data.di.dataModule
 import com.prado.eduardo.luiz.newsapp.data.di.networkModule
+import com.prado.eduardo.luiz.newsapp.navigation.Navigator
+import com.prado.eduardo.luiz.newsapp.navigation.NavigatorImpl
+import com.prado.eduardo.luiz.newsapp.navigation.NavigatorRoute
+import com.prado.eduardo.luiz.newsapp.ui.article.ArticleViewModel
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val presentationModule = module {
     single<DispatchersProvider> { AppDispatchersProvider() }
-    viewModel { NewsViewModel(getArticlesUseCase = get(), dispatcher = get()) }
+    single<Navigator> { NavigatorImpl(get()) }
+    single<NavigatorRoute> { get<Navigator>() }
+    viewModel {
+        NewsViewModel(
+            getArticlesUseCase = get(),
+            dispatcher = get(),
+            navigator = get()
+        )
+    }
+    viewModel {
+        ArticleViewModel(
+            dispatcher = get(),
+            navigator = get()
+        )
+    }
 }
 
 val appModule = listOf(networkModule, dataModule, domainModule, presentationModule)
