@@ -17,19 +17,8 @@ val presentationModule = module {
     single<DispatchersProvider> { AppDispatchersProvider() }
     single<Navigator> { NavigatorImpl(get()) }
     single<NavigatorRoute> { get<Navigator>() }
-    viewModel {
-        NewsViewModel(
-            getArticlesUseCase = get(),
-            dispatcher = get(),
-            navigator = get()
-        )
-    }
-    viewModel {
-        ArticleViewModel(
-            dispatcher = get(),
-            navigator = get()
-        )
-    }
+    viewModel { NewsViewModel(getArticlesUseCase = get(), dispatcher = get(), navigator = get()) }
+    viewModel { ArticleViewModel(dispatcher = get()) }
 }
 
 val appModule = listOf(networkModule, dataModule, domainModule, presentationModule)

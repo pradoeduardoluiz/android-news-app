@@ -3,25 +3,34 @@
 package com.prado.eduardo.luiz.newsapp.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
 import com.prado.eduardo.luiz.newsapp.R
 import com.prado.eduardo.luiz.newsapp.navigation.AppRoute
@@ -33,13 +42,21 @@ import com.prado.eduardo.luiz.newsapp.ui.theme.NewsAppTheme
 fun NewsApp(
     navController: NavHostController
 ) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     NewsAppTheme {
         Scaffold(
             topBar = {
                 Surface(
                     shadowElevation = 8.dp
                 ) {
-                    HomeTopBar()
+                    AppTopBar(
+                        route = currentRoute.orEmpty(),
+                        canNavigateBack = navController.previousBackStackEntry != null,
+                        onBack = { navController.navigateUp() },
+                        scrollBehavior = scrollBehavior
+                    )
                 }
             },
         ) { paddingValues ->
@@ -61,28 +78,44 @@ fun NewsApp(
 }
 
 @Composable
-fun HomeTopBar() {
-    TopAppBar(
-        title = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    modifier = Modifier.size(140.dp, 22.dp),
-                    painter = painterResource(R.drawable.ic_logo),
-                    contentDescription = null
-                )
-            }
-        },
-    )
-}
+private fun AppTopBar(
+    route: String,
+    canNavigateBack: Boolean,
+    onBack: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
+    when {
+        route.contains(AppRoute.Home::class.qualifiedName.toString()) -> {
+            CenterAlignedTopAppBar(
+                title = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            modifier = Modifier.size(140.dp, 22.dp),
+                            painter = painterResource(R.drawable.ic_logo),
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.width(8.dp))
+                    }
+                },
+                scrollBehavior = scrollBehavior
+            )
+        }
 
-@PreviewLightDark
-@Composable
-fun HomeTopBarPreview() {
-    NewsAppTheme {
-        HomeTopBar()
+        else -> {
+            TopAppBar(
+                title = {
+                    Text("Article")
+                },
+                navigationIcon = {
+                    if (canNavigateBack) {
+                        IconButton(onClick = onBack) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        }
+                    }
+                },
+                actions = {},
+                scrollBehavior = scrollBehavior
+            )
+        }
     }
 }
