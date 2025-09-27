@@ -24,7 +24,7 @@ class NewsRepositoryImplTest {
         newsService = mockk()
         repository = NewsRepositoryImpl(
             newsService = newsService,
-            source = source,
+            sources = source,
             apiKey = apiKey
         )
     }

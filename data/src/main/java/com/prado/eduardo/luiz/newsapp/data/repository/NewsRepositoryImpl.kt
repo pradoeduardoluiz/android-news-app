@@ -7,13 +7,13 @@ import com.prado.eduardo.luiz.newsapp.data.remote.service.NewsService
 
 class NewsRepositoryImpl(
     private val newsService: NewsService,
-    private val source: String,
+    private val sources: String,
     private val apiKey: String
 ) : NewsRepository {
 
     override suspend fun getArticle(): Result<List<ArticleModel>> {
         return try {
-            val response = newsService.getArticles(source = source, apiKey = apiKey)
+            val response = newsService.getArticles(sources = sources, apiKey = apiKey)
             if (response.isSuccessful) {
                 val articles = response.body()?.articles?.map { it.toModel() }.orEmpty()
                 Result.success(articles)

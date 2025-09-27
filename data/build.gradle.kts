@@ -47,6 +47,9 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.core)
 
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker.no.op)
+
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)

@@ -10,7 +10,7 @@ val dataModule = module {
     single<NewsRepository> {
         NewsRepositoryImpl(
             newsService = get(),
-            source = "bbc-news",
+            sources = "bbc-news",
             apiKey = API_KEY
         )
     }
