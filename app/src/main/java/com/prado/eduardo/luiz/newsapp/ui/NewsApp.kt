@@ -22,8 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.prado.eduardo.luiz.newsapp.R
-import com.prado.eduardo.luiz.newsapp.ui.navigation.AppRoute
+import com.prado.eduardo.luiz.newsapp.navigation.AppRoute
+import com.prado.eduardo.luiz.newsapp.ui.article.screen.ArticleScreen
 import com.prado.eduardo.luiz.newsapp.ui.news.screen.NewsScreen
 import com.prado.eduardo.luiz.newsapp.ui.theme.NewsAppTheme
 
@@ -48,6 +50,10 @@ fun NewsApp() {
                 startDestination = AppRoute.Home,
             ) {
                 composable<AppRoute.Home> { NewsScreen() }
+                composable<AppRoute.Article> { backStackEntry ->
+                    val article: AppRoute.Article = backStackEntry.toRoute()
+                    ArticleScreen(article = article)
+                }
             }
         }
     }
