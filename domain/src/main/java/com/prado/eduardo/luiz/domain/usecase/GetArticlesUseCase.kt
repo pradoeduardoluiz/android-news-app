@@ -5,6 +5,8 @@ import com.prado.eduardo.luiz.domain.repository.NewsRepository
 
 class GetArticlesUseCase(private val repository: NewsRepository) {
     suspend operator fun invoke(): Result<List<ArticleModel>> {
-        return repository.getArticle()
+        return repository.getArticle().map { articles ->
+            articles.sortedByDescending { it.publishedAt }
+        }
     }
 }

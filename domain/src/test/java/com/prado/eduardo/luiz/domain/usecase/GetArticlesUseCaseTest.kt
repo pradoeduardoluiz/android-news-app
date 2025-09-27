@@ -89,4 +89,55 @@ class GetArticlesUseCaseTest {
                 assertEquals("Test error", it.message)
             }
         }
+
+    @Test
+    fun `when use case is called it should return articles sorted by publishedAt in descending order`() =
+        runTest {
+            // Given
+            val articles = listOf(
+                ArticleModel(
+                    title = "Old Article",
+                    author = "Test Author",
+                    description = "Test Description",
+                    url = "http://test.com",
+                    urlToImage = "http://test.com/image.jpg",
+                    publishedAt = "2024-01-01T10:00:00Z",
+                    content = "Test Content"
+                ),
+                ArticleModel(
+                    title = "Most Recent Article",
+                    author = "Test Author",
+                    description = "Test Description",
+                    url = "http://test.com",
+                    urlToImage = "http://test.com/image.jpg",
+                    publishedAt = "2024-01-03T10:00:00Z",
+                    content = "Test Content"
+                ),
+                ArticleModel(
+                    title = "Medium Article",
+                    author = "Test Author",
+                    description = "Test Description",
+                    url = "http://test.com",
+                    urlToImage = "http://test.com/image.jpg",
+                    publishedAt = "2024-01-02T10:00:00Z",
+                    content = "Test Content"
+                )
+            )
+            coEvery { repository.getArticle() } returns Result.success(articles)
+
+            // When
+            val result = useCase()
+
+            // Then
+            assertTrue(result.isSuccess)
+            result.onSuccess { resultArticles ->
+                assertEquals(3, resultArticles.size)
+                assertEquals("Most Recent Article", resultArticles[0].title)
+                assertEquals("2024-01-03T10:00:00Z", resultArticles[0].publishedAt)
+                assertEquals("Medium Article", resultArticles[1].title)
+                assertEquals("2024-01-02T10:00:00Z", resultArticles[1].publishedAt)
+                assertEquals("Old Article", resultArticles[2].title)
+                assertEquals("2024-01-01T10:00:00Z", resultArticles[2].publishedAt)
+            }
+        }
 }
