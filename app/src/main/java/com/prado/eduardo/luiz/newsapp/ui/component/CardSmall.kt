@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.prado.eduardo.luiz.newsapp.R
 import com.prado.eduardo.luiz.newsapp.ui.theme.NewsAppTheme
 import com.prado.eduardo.luiz.newsapp.ui.theme.SpacingMiddle
@@ -97,7 +97,8 @@ fun CardSmall(
                                         .width(76.dp)
                                         .height(76.dp),
                                     contentDescription = null,
-                                    contentScale = ContentScale.Crop
+                                    contentScale = ContentScale.Crop,
+                                    placeholder = painterResource(id = R.drawable.image_placeholder)
                                 )
                             }
                         }

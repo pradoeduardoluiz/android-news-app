@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.koin.android.compose)
     implementation(libs.koin.core)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network)
     implementation(libs.compose.shimmer)
     implementation(libs.androidx.navigation.compose)
 
