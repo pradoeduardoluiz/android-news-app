@@ -7,7 +7,9 @@ import com.prado.eduardo.luiz.domain.usecase.GetArticlesUseCase
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.DispatchersProvider
 import com.prado.eduardo.luiz.newsapp.navigation.AppRoute
 import com.prado.eduardo.luiz.newsapp.navigation.NavigatorRoute
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,6 +22,9 @@ class NewsViewModel(
 
     private val _uiState = MutableStateFlow(NewsUIState())
     val uiState = _uiState.asStateFlow()
+
+    private val _uiEvent = MutableSharedFlow<NewsUIEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     fun publish(intention: NewsIntent) {
         viewModelScope.launch(dispatcher.io) {
@@ -36,8 +41,8 @@ class NewsViewModel(
             .onSuccess { result ->
                 _uiState.value = NewsUIState(articles = result, isLoading = false)
             }.onFailure { e ->
-                _uiState.value = NewsUIState(error = e.message, isLoading = false)
-                e.printStackTrace()
+                _uiState.value = NewsUIState(isLoading = false)
+                _uiEvent.emit(NewsUIEvent.ShowError(e.message.orEmpty()))
             }
     }
 

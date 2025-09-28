@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="error_dialog_title">Attention</string>
+    <string name="error_dialog_message">An error occurred while fetching news. Please try again later.</string>
+    <string name="retry_button_text">Retry</string>
+    <string name="close_button_text">Close</string>
 </resources>

@@ -16,6 +16,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -23,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.prado.eduardo.luiz.newsapp.ui.component.CardLarge
 import com.prado.eduardo.luiz.newsapp.ui.component.CardSmall
+import com.prado.eduardo.luiz.newsapp.ui.component.ErrorDialog
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsIntent
+import com.prado.eduardo.luiz.newsapp.ui.news.NewsUIEvent
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsUIState
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsViewModel
 import com.prado.eduardo.luiz.newsapp.ui.theme.NewsAppTheme
@@ -39,8 +45,33 @@ fun NewsScreen(modifier: Modifier = Modifier) {
     val viewModel: NewsViewModel = koinViewModel()
     val state = viewModel.uiState.collectAsStateWithLifecycle()
 
+    var showError by rememberSaveable { mutableStateOf(false) }
+    var errorMsg by rememberSaveable { mutableStateOf("") }
+
     LaunchedEffect(viewModel) {
         viewModel.publish(NewsIntent.GetNews)
+    }
+
+    LaunchedEffect(viewModel.uiEvent) {
+        viewModel.uiEvent.collect {
+            when (it) {
+                is NewsUIEvent.ShowError -> {
+                    errorMsg = it.message
+                    showError = true
+                }
+            }
+        }
+    }
+
+    if (showError) {
+        ErrorDialog(
+            message = errorMsg,
+            onRetry = {
+                showError = false
+                viewModel.publish(NewsIntent.GetNews)
+            },
+            onDismiss = { showError = false }
+        )
     }
 
     Column(modifier = modifier) {
