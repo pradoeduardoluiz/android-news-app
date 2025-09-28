@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -13,6 +15,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val apiKey: String =
+            gradleLocalProperties(rootDir, providers).getProperty("NEWS_API_KEY")
+
+        buildConfigField(
+            "String",
+            "NEWS_API_KEY",
+            "\"$apiKey\""
+        )
     }
 
     buildTypes {
