@@ -82,7 +82,7 @@ class NewsRepositoryImplTest {
         // Then
         assertTrue(result.isFailure)
         result.onFailure { exception ->
-            assertEquals("Error fetching articles: 404", exception.message)
+            assertEquals("HTTP 404 Response.error()", exception.message)
         }
     }
 
