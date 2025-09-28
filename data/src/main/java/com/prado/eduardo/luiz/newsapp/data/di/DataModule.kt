@@ -12,4 +12,5 @@ val dataModule = module {
             apiKey = API_KEY
         )
     }
+    single<ErrorMapper> { ErrorMapperImpl() }
 }

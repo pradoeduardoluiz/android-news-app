@@ -4,6 +4,7 @@ import com.prado.eduardo.luiz.domain.model.ArticleModel
 import com.prado.eduardo.luiz.domain.repository.NewsRepository
 import com.prado.eduardo.luiz.newsapp.data.remote.mapper.toModel
 import com.prado.eduardo.luiz.newsapp.data.remote.service.NewsService
+import retrofit2.HttpException
 
 class NewsRepositoryImpl(
     private val newsService: NewsService,
@@ -18,12 +19,10 @@ class NewsRepositoryImpl(
                 val articles = response.body()?.articles?.map { it.toModel() }.orEmpty()
                 Result.success(articles)
             } else {
-                Result.failure(Exception("Error fetching articles: ${response.code()}"))
+                Result.failure(HttpException(response))
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 }
-
-

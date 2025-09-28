@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prado.eduardo.luiz.domain.model.ArticleModel
 import com.prado.eduardo.luiz.domain.usecase.GetArticlesUseCase
+import com.prado.eduardo.luiz.domain.util.ErrorMapper
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.DispatchersProvider
 import com.prado.eduardo.luiz.newsapp.navigation.AppRoute
 import com.prado.eduardo.luiz.newsapp.navigation.NavigatorRoute
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class NewsViewModel(
     private val getArticlesUseCase: GetArticlesUseCase,
     private val dispatcher: DispatchersProvider,
-    private val navigator: NavigatorRoute
+    private val navigator: NavigatorRoute,
+    private val errorMapper: ErrorMapper,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NewsUIState())
@@ -42,7 +44,7 @@ class NewsViewModel(
                 _uiState.value = NewsUIState(articles = result, isLoading = false)
             }.onFailure { e ->
                 _uiState.value = NewsUIState(isLoading = false)
-                _uiEvent.emit(NewsUIEvent.ShowError(e.message.orEmpty()))
+                _uiEvent.emit(NewsUIEvent.ShowError(errorMapper.map(e)))
             }
     }
 

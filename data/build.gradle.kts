@@ -17,7 +17,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         val apiKey: String =
-            gradleLocalProperties(rootDir, providers).getProperty("NEWS_API_KEY")
+            gradleLocalProperties(rootDir, providers).getProperty("NEWS_API_KEY").orEmpty()
 
         buildConfigField(
             "String",
