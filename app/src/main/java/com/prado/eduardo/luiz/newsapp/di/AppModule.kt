@@ -1,6 +1,7 @@
 package com.prado.eduardo.luiz.newsapp.di
 
 import com.prado.eduardo.luiz.domain.di.domainModule
+import com.prado.eduardo.luiz.newsapp.ui.auth.di.authModule
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.AppDispatchersProvider
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.DispatchersProvider
 import com.prado.eduardo.luiz.newsapp.data.di.dataModule
@@ -28,4 +29,4 @@ val presentationModule = module {
     viewModel { ArticleViewModel(dispatcher = get()) }
 }
 
-val appModule = listOf(networkModule, dataModule, domainModule, presentationModule)
+val appModule = listOf(networkModule, dataModule, domainModule, presentationModule, authModule)

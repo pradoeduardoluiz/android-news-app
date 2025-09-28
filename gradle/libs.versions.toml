@@ -1,5 +1,6 @@
 [versions]
 agp = "8.13.0"
+biometric = "1.1.0"
 kotlin = "2.2.20"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -20,6 +21,7 @@ navigationCompose = "2.9.5"
 navigationRuntimeKtx = "2.9.5"
 
 [libraries]
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

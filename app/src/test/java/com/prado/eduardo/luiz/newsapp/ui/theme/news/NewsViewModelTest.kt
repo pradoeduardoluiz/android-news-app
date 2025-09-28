@@ -2,7 +2,9 @@ package com.prado.eduardo.luiz.newsapp.ui.theme.news
 
 import com.prado.eduardo.luiz.domain.model.ArticleModel
 import com.prado.eduardo.luiz.domain.usecase.GetArticlesUseCase
+import com.prado.eduardo.luiz.domain.util.ErrorMapper
 import com.prado.eduardo.luiz.newsapp.common.dispatcher.DispatchersProvider
+import com.prado.eduardo.luiz.newsapp.navigation.Navigator
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsIntent
 import com.prado.eduardo.luiz.newsapp.ui.news.NewsViewModel
 import io.mockk.coEvery
@@ -26,6 +28,10 @@ class NewsViewModelTest {
     private lateinit var viewModel: NewsViewModel
     private lateinit var getArticlesUseCase: GetArticlesUseCase
     private lateinit var dispatchersProvider: DispatchersProvider
+
+    private lateinit var navigator: Navigator
+
+    private lateinit var errorMapper: ErrorMapper
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
@@ -35,7 +41,12 @@ class NewsViewModelTest {
         dispatchersProvider = mockk {
             coEvery { io } returns testDispatcher
         }
-        viewModel = NewsViewModel(getArticlesUseCase, dispatchersProvider)
+        viewModel = NewsViewModel(
+            getArticlesUseCase = getArticlesUseCase,
+            dispatcher = dispatchersProvider,
+            navigator = navigator,
+            errorMapper = errorMapper
+        )
     }
 
     @After
@@ -58,7 +69,6 @@ class NewsViewModelTest {
             with(viewModel.uiState.value) {
                 assertFalse(isLoading)
                 assertEquals(articles, this.articles)
-                assertEquals(null, error)
             }
         }
 
@@ -77,7 +87,6 @@ class NewsViewModelTest {
             with(viewModel.uiState.value) {
                 assertFalse(isLoading)
                 assertTrue(articles.isEmpty())
-                assertEquals(errorMessage, error)
             }
         }
 

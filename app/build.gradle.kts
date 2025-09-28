@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.compose.shimmer)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.biometric)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

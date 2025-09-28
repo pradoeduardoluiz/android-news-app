@@ -4,4 +4,13 @@
     <string name="error_dialog_message">An error occurred while fetching news. Please try again later.</string>
     <string name="retry_button_text">Retry</string>
     <string name="close_button_text">Close</string>
+
+    <!-- Authentication strings -->
+    <string name="auth_initializing">Initializing authentication…</string>
+    <string name="auth_required_title">Authentication Required</string>
+    <string name="auth_required_message">Please authenticate using your fingerprint to access the app</string>
+    <string name="auth_failed_title">Authentication Failed</string>
+    <string name="auth_failed_message">Fingerprint authentication failed. Please try again.</string>
+    <string name="auth_try_again">Try Again</string>
+    <string name="fingerprint_content_description">Fingerprint</string>
 </resources>
