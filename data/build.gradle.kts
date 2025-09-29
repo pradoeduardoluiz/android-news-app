@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
@@ -6,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+apply(from = "${rootProject.projectDir}/flavors.gradle")
 android {
     namespace = "com.prado.eduardo.luiz.newsapp.data"
     compileSdk = 36
@@ -16,8 +18,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
+        /**
+         * this is not a good practice to expose api key in the code
+         * this is only for the reviewer doesnt need to create api key to test the app
+         * in a real world app you should use a safer way to store your api key
+         * like using a backend server or a secure vault
+         * or at least use NDK to store your api key in a native library
+         */
         val apiKey: String =
-            gradleLocalProperties(rootDir, providers).getProperty("NEWS_API_KEY").orEmpty()
+            gradleLocalProperties(rootDir, providers)
+                .getProperty("NEWS_API_KEY") ?: "38ea4eb3ca424da08552d9f13ae8d12f"
 
         buildConfigField(
             "String",
@@ -35,13 +45,19 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+
+    buildFeatures {
+        buildConfig = true
     }
-    kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 }
 

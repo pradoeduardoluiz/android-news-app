@@ -1,0 +1,26 @@
+android {
+    flavorDimensions += "sources"
+    productFlavors {
+        bbc {
+            dimension = "sources"
+            ext.myApplicationIdSuffix = ".bbc"
+            buildConfigField("String", "SOURCES", "\"bbc-news\"")
+        }
+
+        cnn {
+            dimension = "sources"
+            ext.myApplicationIdSuffix = ".cnn"
+            buildConfigField("String", "SOURCES", "\"cnn\"")
+        }
+    }
+
+    productFlavors.all { flavor ->
+        if (flavor.hasProperty('myApplicationIdSuffix') && isApplicationProject()) {
+            flavor.applicationIdSuffix = flavor.myApplicationIdSuffix
+        }
+    }
+}
+
+def isApplicationProject() {
+    return project.android.class.simpleName.startsWith('BaseAppModuleExtension')
+}
