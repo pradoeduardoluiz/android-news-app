@@ -3,6 +3,7 @@ package com.prado.eduardo.luiz.newsapp.data.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.prado.eduardo.luiz.newsapp.data.BuildConfig
 import com.prado.eduardo.luiz.newsapp.data.remote.service.NewsService
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -22,11 +23,11 @@ val networkModule = module {
 }
 
 private fun provideHttpClient(context: Context): OkHttpClient {
-    return OkHttpClient
-        .Builder()
-        .readTimeout(60, TimeUnit.SECONDS)
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .addInterceptor(
+    val builder = OkHttpClient.Builder()
+    builder.readTimeout(60, TimeUnit.SECONDS)
+    builder.connectTimeout(60, TimeUnit.SECONDS)
+    if (BuildConfig.DEBUG) {
+        builder.addInterceptor(
             ChuckerInterceptor.Builder(context)
                 .collector(ChuckerCollector(context))
                 .maxContentLength(250000L)
@@ -34,7 +35,8 @@ private fun provideHttpClient(context: Context): OkHttpClient {
                 .alwaysReadResponseBody(false)
                 .build()
         )
-        .build()
+    }
+    return builder.build()
 }
 
 private fun provideConverterFactory(): Converter.Factory = MoshiConverterFactory.create()
